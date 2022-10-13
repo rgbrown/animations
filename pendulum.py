@@ -8,8 +8,9 @@ from scipy.integrate import odeint
 plt.style.use("dark_background")
 
 # Pendulum parameters
-L = 7 
+L = 4 
 g = 9.8
+arrow_scale = 0.3 # so vectors display on screen
 
 # simulation parameters
 fps = 30
@@ -40,7 +41,7 @@ U = odeint(pendulum, u0, t)
 
 # Create figure
 fig = plt.figure(figsize=(12, 9))
-ax = plt.axes(xlim=(-10, 10), ylim = [-12, 0], aspect='equal')
+ax = plt.axes((0, 0, 1, 1), xlim=(-L, L), ylim = [-1.2*L, 0], aspect='equal')
 
 shaft, = plt.plot([0, 0], [0, 0], color='C0', linewidth=3)
 mass, = plt.plot([0], [0], 'o', color='C0', markersize=20)
@@ -55,14 +56,16 @@ plt.axis('off')
 # Define animation function
 def animate(i):
     x, v, a = polar_to_cart(U[i, 0], U[i, 1])
+    v *= arrow_scale
+    a *= arrow_scale
     shaft.set_xdata([0, x[0]])
     shaft.set_ydata([0, x[1]])
     mass.set_xdata([x[0]])
     mass.set_ydata([x[1]])
     velocity.set_data(x=x[0], y=x[1], dx=v[0], dy=v[1])
     acceleration.set_data(x=x[0], y=x[1], dx=a[0], dy=a[1])
-    v_text.set_position(x + (np.linalg.norm(v) + 1)/np.linalg.norm(v)*v)
-    a_text.set_position(x + (np.linalg.norm(a) + 1)/np.linalg.norm(a)*a)
+    v_text.set_position(x + (np.linalg.norm(v) + 0.5)/np.linalg.norm(v)*v)
+    a_text.set_position(x + (np.linalg.norm(a) + 0.5)/np.linalg.norm(a)*a)
     return shaft, mass, velocity, v_text, a_text
 
 ani = FuncAnimation(fig, animate, n_frames, interval=1000/fps, blit=False)
