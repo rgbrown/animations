@@ -66,6 +66,7 @@ def animate(i):
     return shaft, mass, velocity, v_text, a_text
 
 ani = FuncAnimation(fig, animate, n_frames, interval=1000/fps, blit=False)
+ani.save("pendulum.mp4", fps=fps)
 plt.show()
     
 
