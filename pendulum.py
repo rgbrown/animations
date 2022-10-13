@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-
+# Pendulum animation - solve nonlinear pendulum equation in polar coordinates, then animate solution, including velocity and acceleration vectors. 
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from scipy.integrate import odeint
 
-# Pendulum animation - solve nonlinear pendulum equation in polar coordinates, then animate solution, including velocity and acceleration vectors. 
+plt.style.use("dark_background")
 
 # Pendulum parameters
 L = 7 
@@ -40,12 +40,17 @@ U = odeint(pendulum, u0, t)
 
 # Create figure
 fig = plt.figure(figsize=(12, 9))
-ax = plt.axes(xlim=(-10, 10), ylim = [-12, 0])
+ax = plt.axes(xlim=(-10, 10), ylim = [-12, 0], aspect='equal')
 
-shaft, = plt.plot([0, 0], [0, 0], linewidth=3)
-mass, = plt.plot([0], [0], 'ko', markersize=20)
-velocity = plt.arrow(0, 0, 0, 0, color='r', lw=3, head_width=0.15)
-acceleration = plt.arrow(0, 0, 0, 0, color='g', lw=3, head_width=0.15)
+shaft, = plt.plot([0, 0], [0, 0], color='C0', linewidth=3)
+mass, = plt.plot([0], [0], 'o', color='C0', markersize=20)
+velocity = plt.arrow(0, 0, 0, 0, lw=3, color='C1', head_width=0.15, label='velocity')
+acceleration = plt.arrow(0, 0, 0, 0, lw=3, color='C3', head_width=0.15,label='acceleration')
+v_text = plt.text(0, 0, 'v', color='C1', fontweight='bold', fontsize=20)
+a_text = plt.text(0, 0, 'a', color='C3', fontweight='bold', fontsize=20)
+
+plt.axis('off')
+
 
 # Define animation function
 def animate(i):
@@ -56,7 +61,9 @@ def animate(i):
     mass.set_ydata([x[1]])
     velocity.set_data(x=x[0], y=x[1], dx=v[0], dy=v[1])
     acceleration.set_data(x=x[0], y=x[1], dx=a[0], dy=a[1])
-    return shaft, mass, velocity
+    v_text.set_position(x + (np.linalg.norm(v) + 1)/np.linalg.norm(v)*v)
+    a_text.set_position(x + (np.linalg.norm(a) + 1)/np.linalg.norm(a)*a)
+    return shaft, mass, velocity, v_text, a_text
 
 ani = FuncAnimation(fig, animate, n_frames, interval=1000/fps, blit=False)
 plt.show()
