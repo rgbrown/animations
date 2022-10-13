@@ -52,7 +52,7 @@ n_frames = fps*sim_time
 
 # Draw initial traces
 fig = plt.figure(figsize=(12, 9))
-ax = plt.axes(projection="3d", xlim=(-20, 20), ylim=(-20, 20), zlim=(0, 40))
+ax = plt.axes((0, 0, 1, 1), projection="3d", xlim=(-20, 20), ylim=(-20, 20), zlim=(0, 40))
 traces = []
 for k in range(n_traces):
     traces.append(ax.plot(nans, nans, nans)[0])
