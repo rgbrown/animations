@@ -10,7 +10,7 @@ plt.style.use("dark_background")
 # Simulation parameters
 fps = 30
 pts_per_frame = 10 
-sim_time = 100 # simulation time (seconds)
+sim_time = 180 # simulation time (seconds)
 trail_time = 2 # seconds
 
 # Three body problem parameters
@@ -48,13 +48,13 @@ U = np.vstack((nans, soln[:, 0:6]))
 
 # Draw initial plots
 fig = plt.figure(figsize=(12, 9))
-ax = plt.axes(xlim = (-1, 1), ylim = (-0.4, 1.1), aspect='equal')
+ax = plt.axes(xlim = (-1.2, 1.2), ylim = (-0.5, 1.3), aspect='equal')
 colors = ['C0', 'C1', 'C3']
 traces = []
 pts = []
 for k in range(3):
     traces.append(ax.plot(nans[:, 2*k], nans[:, 2*k+1], color=colors[k], alpha=0.7)[0])
-    pts.append(ax.plot(np.nan, np.nan, 'o', color=colors[k], markersize=12)[0])
+    pts.append(ax.plot(np.nan, np.nan, 'o', color=colors[k], markersize=10)[0])
 plt.axis('off')
 
 n_frames = fps*sim_time
