@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from scipy.integrate import odeint
 
-plt.style.use("dark_background")
+#plt.style.use("dark_background")
 # Simulation parameters
 fps = 30
 pts_per_frame = 10 
